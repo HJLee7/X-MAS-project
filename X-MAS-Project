@@ -1,5 +1,3 @@
-
-
 love <- function(name) {
   
   suppressWarnings(suppressMessages(require(crayon)))
@@ -199,9 +197,7 @@ love <- function(name) {
     cat(paste0(bold(red("=====WRONG NAME!! ")),
                bold(red("WHO IS '")),
                bold(red(name)),
-               bold(red("'? TRY ")),
-               bold(black("'Sohee'")),
-               bold(red("?====="))
+               bold(red("?' TRY 'Sohee?'===== "))
     ))
   }
   
