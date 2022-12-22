@@ -1,0 +1,208 @@
+
+
+love <- function(name) {
+  
+  suppressWarnings(suppressMessages(require(crayon)))
+  suppressWarnings(suppressMessages(require(tidyverse)))
+  suppressWarnings(suppressMessages(require(shadowtext)))
+  suppressWarnings(suppressMessages(require(tuneR)))
+  
+  
+  if(name == "Sohee"){
+    
+    cat(paste0("Hi Sohee!\n"))
+    Sys.sleep(3)
+    
+    cat(paste0("wait for a second...little fairies are getting you a letter\n"))
+    Sys.sleep(3)
+    
+    cat(paste0("meanwhile, you may kiss your bf ;)"))
+    Sys.sleep(3)
+    
+    
+    #draw the letter
+    
+    tree <- c(
+      "★",
+      "M",
+      "CHR",
+      "RRY C",
+      "  CHRIS",
+      "ISTMAS   ME",
+      "ARRY CHRISTMA",
+      "AS   MERRY CHRIS",
+      "ISTMAS   MERRY CH",
+      "RY CHRISTMAS   MER",
+      "* MERRY CHRISTMAS *",
+      "",
+      ""
+    )
+    
+    light <- c(
+      "",
+      "",
+      "",
+      "", 
+      "§           ",
+      "       §",
+      "",
+      "§                    ",
+      "§     ",
+      "                  §",
+      "",
+      "",
+      ""
+    )
+    
+    Tree <- tibble(tree = tree,
+                   light = light,
+                   x = 0,
+                   y = 13:1,
+                   colorcodes = c("yellow1",rep("springgreen4",9), "red3", rep("chocolate",2)),
+                   sizecodes = c(13,rep(6,10), rep(10,2)),
+    )
+    
+    Pattern <- tibble(x = runif(150,-0.045, 0.198), 
+                      y = runif(150,0,14.5))
+    
+    TreeB <- tibble(x = c(-0.04, 00.0, 0.04),
+                    y = c(+2.50, 13.0, 2.50))
+    
+    letter <- ggplot(NULL, aes(x,y)) + 
+      
+      #background
+      geom_rect(data = Tree,
+                xmin = -0.048, xmax = 0.20,
+                ymin = 0, ymax = 15,
+                col = "black", fill = "floralwhite") +
+      #pattern
+      geom_shadowtext(data = Pattern,
+                      label = "*",
+                      size = runif(150,3,7),
+                      col = "floralwhite") +
+      
+      #treebase
+      geom_polygon(data = TreeB, 
+                   aes(x,y), fill = "floralwhite") +
+      
+      #tree
+      geom_text(data = Tree,
+                label = tree,
+                col = Tree$colorcodes,
+                size = Tree$sizecodes,
+                family = "serif") +
+      
+      #lights
+      geom_text(data = Tree,
+                label = light,
+                col = "red3",
+                family = "serif",
+                size = 7) + 
+      
+      #roots
+      geom_segment(data = Tree,
+                   x = 0, y = 0.5, 
+                   xend = 0, yend = 2.5, 
+                   linewidth = 3, col = "firebrick") +
+      
+      #rectangle
+      geom_rect(data = Tree,
+                aes(xmin = 0.06, xmax = 0.16,
+                    ymin = 4.5, ymax = 9.5), 
+                col = "black", fill = "red3", linewidth = 1) +
+      
+      
+      #shades
+      geom_text(data = Tree,
+                x = 0.111, y = 7.05, 
+                label = "MERRY X-MAS \n SOHEE", 
+                family ="serif",
+                col = "black", 
+                size = 10) +
+      geom_text(data = Tree,
+                x = 0.141, y = 6.25, 
+                label = "♥", 
+                col = 'black', 
+                size = 20) +
+      
+      #text
+      geom_text(data = Tree,
+                x = 0.11, y = 7, 
+                label = "MERRY X-MAS \n SOHEE", 
+                family ="serif",
+                col = "white", 
+                size = 10) +
+      geom_text(x = 0.14, y = 6.2, 
+                label = "♥", 
+                col = 'white', 
+                size = 20) +
+      
+      #sign off
+      geom_text(data = Tree,
+                x = 0.195, y = 1.3, 
+                label = "with love, HJ \n 22.12.25",
+                hjust = "right",
+                family = "serif",
+                size = 4.5) +
+      
+      #coordinates
+      coord_cartesian(xlim = c(-0.05, 0.2),
+                      ylim = c(0, 15)) +
+      
+      #theme
+      theme(panel.background =  element_blank(),
+            text = element_blank(),
+            axis.ticks = element_blank())
+    
+    
+    #download the song
+    url <- "https://github.com/HJLee7/X-MAS-project/blob/main/Song.zip?raw=TRUE"
+    tryCatch(
+      expr = {
+        download.file(url, "song.zip", quiet = T, mode = "wb")
+        unzip(paste0(getwd(),"/song.zip"))
+      },
+      warning = function(e){
+        download.file(url, "song.zip", quiet = T)
+        unzip(paste0(getwd(),"/song.zip"))
+      },
+      error = function(e){
+        download.file(url, "song.zip", quiet = T)
+        unzip(paste0(getwd(),"/song.zip"))
+      }
+    )
+    song <- readMP3("Bobby Helms - Jingle Bell Rock (Lyrics).mp3")
+    
+    
+    #showtime
+    Sys.sleep(5)
+    cat("\n\nnow start counting down from five\n")
+    Sys.sleep(2)
+    
+    cat("four\n")
+    Sys.sleep(2)
+    
+    cat("three\n")
+    Sys.sleep(2)
+    
+    cat("two\n")
+    Sys.sleep(2)
+    
+    cat("one!\n")
+    Sys.sleep(2)
+    
+    cat(paste0(bold("\n\n=====Happy Holidays Sohee!! -XOXO=====\n")))
+    print(letter)
+    play(song)
+    
+  }else{
+    cat(paste0(bold(red("=====WRONG NAME!! ")),
+               bold(red("WHO IS '")),
+               bold(red(name)),
+               bold(red("'? TRY ")),
+               bold(black("'Sohee'")),
+               bold(red("?====="))
+    ))
+  }
+  
+}
